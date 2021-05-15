@@ -3,10 +3,8 @@ import App from './App.vue';
 const app = createApp(App);
 
 // Bootstrap
-// import { BootstrapVue } from 'bootstrap-vue'
-// app.use(BootstrapVue);
-import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 // Router
 import router from './router';
