@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const database = process.env.DB_NAME;
 const uri = process.env.DB_URI;
 
 module.exports = function (collectionName) { 
@@ -13,7 +14,7 @@ module.exports = function (collectionName) {
             let objects;
             try {
                 await client.connect();
-                const collection = client.db("cozydata").collection(this.collectionName);
+                const collection = client.db(database).collection(this.collectionName);
 
                 if (findMany) {
                     objects = await collection.find(query).toArray();
@@ -33,9 +34,25 @@ module.exports = function (collectionName) {
             let result;
             try {
                 await client.connect();
-                const collection = client.db("cozydata").collection(this.collectionName);
+                const collection = client.db(database).collection(this.collectionName);
         
                 result = await collection.insertOne(object);
+        
+            } finally {
+                await client.close();
+            }
+            return result;
+        },
+
+        // Создать объекты
+        async insert(objects) {
+            const client = new MongoClient(uri, this.dbParams);
+            let result;
+            try {
+                await client.connect();
+                const collection = client.db(database).collection(this.collectionName);
+        
+                result = await collection.insertMany(objects);
         
             } finally {
                 await client.close();
@@ -49,7 +66,7 @@ module.exports = function (collectionName) {
             let result;
             try {
                 await client.connect();
-                const collection = client.db("cozydata").collection(this.collectionName);
+                const collection = client.db(database).collection(this.collectionName);
         
                 result = await collection.updateOne(filter, object);
         
@@ -65,7 +82,7 @@ module.exports = function (collectionName) {
             let result;
             try {
                 await client.connect();
-                const collection = client.db("cozydata").collection(this.collectionName);
+                const collection = client.db(database).collection(this.collectionName);
         
                 result = await collection.deleteOne(query);
         
