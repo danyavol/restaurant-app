@@ -7,7 +7,7 @@ const PORT = 3080;
 
 // Запросы на сервер разрешены только с этого домена
 const cors = require('cors');
-app.use( cors() );
+app.use( cors({origin: 'http://localhost:8080'}) );
 
 
 // Парсер входящих запросов

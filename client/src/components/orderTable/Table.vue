@@ -27,7 +27,7 @@ export default {
 </script>
 
 <template>
-    <div class="table" 
+    <div class="tableItem" 
         :class="{'bg-danger': ordered, 'bg-success': !ordered && !selected, 'bg-primary': selected}" 
         @click="selectTable()"
     >
@@ -37,7 +37,7 @@ export default {
 </template>
 
 <style scoped>
-    .table {
+    .tableItem {
         display: flex;
         flex-direction: column;
         align-items: center;

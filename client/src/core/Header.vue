@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <span class="navbar-brand">Restaurant app</span>
 
@@ -23,6 +23,13 @@
         </div>
     </nav>
 </template>
+
+<style scoped>
+    nav {
+        background-color: #c6f6d5;
+        box-shadow: 0 5px 10px rgba( 0 0 0 / .15);
+    }
+</style>
 
 <script>
 export default {
