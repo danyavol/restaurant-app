@@ -2,6 +2,7 @@
 import TableList from '@/components/orderTable/TableList';
 import httpService from '@/service/httpService'
 import Calendar from '@/components/Calendar'
+import axios from 'axios'
 
 export default {
     components: {
@@ -14,7 +15,8 @@ export default {
 
             dateRange: null,
             customerName: null,
-            phoneNumber: null
+            phoneNumber: null,
+            userOrders: []
         }
     },
     async mounted() {
@@ -24,9 +26,24 @@ export default {
     methods: {
         onDateRangeUpdate(dateRange) {
             this.dateRange = {
-                fromDate: dateRange.start,
-                toDate: dateRange.end
+                fromTime: dateRange.start,
+                toTime: dateRange.end
             };
+        },
+        onUserOrdersUpdate(userOrder) {
+            this.userOrders = userOrder;
+        },
+        sendOrder() {
+            for (let order of this.userOrders) {
+                const data = {
+                    tableId: order,
+                    fromTime: this.dateRange.fromTime,
+                    toTime: this.dateRange.toTime,
+                    customerName: this.customerName,
+                    phoneNumber: this.phoneNumber
+                };
+                axios.post(process.env.VUE_APP_SERVER_URL+'order', data);
+            }
         }
     }
 }
@@ -47,12 +64,12 @@ export default {
                 <input type="text" class="form-control" v-model="phoneNumber" placeholder="+375 (29) 123-45-67">
             </div>
             <div class="flex-grow"></div>
-            <button type="button" class="btn btn-primary" :disabled="!(customerName && phoneNumber && dateRange)">Отправить заказ</button>
+            <button type="button" class="btn btn-primary" :disabled="!(customerName && phoneNumber && dateRange && userOrders.length)" @click="sendOrder">Отправить заказ</button>
         </div>
     </section>
 
     <section class="restaurantTables">
-        <TableList v-if="tablesConfig && orders" :config="tablesConfig" :orders="orders" :selectedDate="dateRange" />
+        <TableList v-if="tablesConfig && orders" :config="tablesConfig" :orders="orders" :selectedDate="dateRange" @userOrdersUpdate="onUserOrdersUpdate" />
     </section>
     
     

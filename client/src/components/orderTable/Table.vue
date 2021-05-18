@@ -3,22 +3,21 @@ export default {
     props: {
         ordered: Boolean,
         number: Number,
-        seats: Number
+        seats: Number,
+        selected: Boolean
     },
     emits: ['changeTableStatus'],
     data() {
         return {
-            selected: false
         }
     },
     methods: {
         selectTable() {
             if (this.ordered) return;
 
-            this.selected = !this.selected;
             const data = {
-                number: this.number, 
-                selected: this.selected
+                tableId: this.number, 
+                selected: !this.selected
             };
             this.$emit('changeTableStatus', data);
         }

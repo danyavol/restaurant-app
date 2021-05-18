@@ -15,6 +15,7 @@ export default {
                 'max-date': this.getMaxDate(),
                 'model-config': {
                     timeAdjust: '00:00:00',
+                    type: 'number'
                 },
                 'is-range': true,
                 'is24hr': true,
@@ -36,7 +37,6 @@ export default {
     watch: {
         selectedDate() {
             this.$emit('dateRangeUpdate', this.selectedDate);
-            console.log('dateRangeUpdate', this.selectedDate);
         }
     }
 }
