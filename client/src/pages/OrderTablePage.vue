@@ -44,6 +44,8 @@ export default {
                 };
                 axios.post(process.env.VUE_APP_SERVER_URL+'order', data);
             }
+            alert('Ваш заказ сохранен!');
+            window.location.reload();
         }
     }
 }
