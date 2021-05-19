@@ -1,6 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router"
 import Home from '@/pages/HomePage'
-import Contacts from '@/pages/ContactsPage'
 import OrderTable from '@/pages/OrderTablePage'
 import NotFound from '@/pages/NotFound'
 
@@ -14,11 +13,6 @@ const routes = [
         path: "/order",
         name: "OrderTable",
         component: OrderTable,
-    },
-    {
-        path: "/contacts",
-        name: "Contacts",
-        component: Contacts,
     },
     {
         path: "/:catchAll(.*)",

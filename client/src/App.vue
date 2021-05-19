@@ -1,8 +1,10 @@
 <template>
-    <Header />
-    <main class="container">
-        <router-view />
-    </main>
+    <div class="sss">
+        <Header />
+        <main>
+            <router-view />
+        </main>
+    </div>
 </template>
 
 <script>
@@ -17,4 +19,15 @@ export default {
 </script>
 
 <style>
+    html, body, #app {
+        height: 100%;
+    }
+    .sss {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    main {
+        flex-grow: 1;
+    }
 </style>

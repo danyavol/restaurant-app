@@ -1,12 +1,13 @@
 <script>
-import TableList from '@/components/orderTable/TableList';
-import httpService from '@/service/httpService'
-import Calendar from '@/components/Calendar'
-import axios from 'axios'
+import TableList from "@/components/orderTable/TableList";
+import httpService from "@/service/httpService";
+import Calendar from "@/components/Calendar";
+import axios from "axios";
 
 export default {
     components: {
-        TableList, Calendar
+        TableList,
+        Calendar,
     },
     data() {
         return {
@@ -16,8 +17,8 @@ export default {
             dateRange: null,
             customerName: null,
             phoneNumber: null,
-            userOrders: []
-        }
+            userOrders: [],
+        };
     },
     async mounted() {
         this.tablesConfig = await httpService.getConfig();
@@ -27,7 +28,7 @@ export default {
         onDateRangeUpdate(dateRange) {
             this.dateRange = {
                 fromTime: dateRange.start,
-                toTime: dateRange.end
+                toTime: dateRange.end,
             };
         },
         onUserOrdersUpdate(userOrder) {
@@ -40,73 +41,120 @@ export default {
                     fromTime: this.dateRange.fromTime,
                     toTime: this.dateRange.toTime,
                     customerName: this.customerName,
-                    phoneNumber: this.phoneNumber
+                    phoneNumber: this.phoneNumber,
                 };
-                axios.post(process.env.VUE_APP_SERVER_URL+'order', data);
+                axios.post(process.env.VUE_APP_SERVER_URL + "order", data);
             }
-            alert('Ваш заказ сохранен!');
+            alert("Ваш заказ сохранен!");
             window.location.reload();
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <template>
+    <div class="bg-img">
+        <div class="blur">
+            <div class="container">
+                <section class="formGroup">
+                    <Calendar @dateRangeUpdate="onDateRangeUpdate" />
 
-    <section class="formGroup">
-        <Calendar @dateRangeUpdate="onDateRangeUpdate"/>
+                    <div class="inputs">
+                        <div class="mb-3">
+                            <label class="form-label">Имя и фамилия</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="customerName"
+                                placeholder="Иван Иванов"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Номер телефона</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="phoneNumber"
+                                placeholder="+375 (29) 123-45-67"
+                            />
+                        </div>
+                        <div class="flex-grow"></div>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            :disabled="
+                                !(
+                                    customerName &&
+                                    phoneNumber &&
+                                    dateRange &&
+                                    userOrders.length
+                                )
+                            "
+                            @click="sendOrder"
+                        >
+                            Отправить заказ
+                        </button>
+                    </div>
+                </section>
 
-        <div class="inputs">
-            <div class="mb-3">
-                <label class="form-label">Имя и фамилия</label>
-                <input type="text" class="form-control" v-model="customerName" placeholder="Иван Иванов">
+                <section class="restaurantTables">
+                    <TableList
+                        v-if="tablesConfig && orders"
+                        :config="tablesConfig"
+                        :orders="orders"
+                        :selectedDate="dateRange"
+                        @userOrdersUpdate="onUserOrdersUpdate"
+                    />
+                </section>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Номер телефона</label>
-                <input type="text" class="form-control" v-model="phoneNumber" placeholder="+375 (29) 123-45-67">
-            </div>
-            <div class="flex-grow"></div>
-            <button type="button" class="btn btn-primary" :disabled="!(customerName && phoneNumber && dateRange && userOrders.length)" @click="sendOrder">Отправить заказ</button>
         </div>
-    </section>
-
-    <section class="restaurantTables">
-        <TableList v-if="tablesConfig && orders" :config="tablesConfig" :orders="orders" :selectedDate="dateRange" @userOrdersUpdate="onUserOrdersUpdate" />
-    </section>
-    
-    
+    </div>
 </template>
 
 <style scoped>
+.bg-img {
+    background-image: url("~@/assets/table.jpg");
+    background-size: cover;
+    height: 100%;
+}
+
+.blur {
+    height: 100%;
+    backdrop-filter: blur(5px);
+}
+
+.formGroup {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    /* margin-top: 20px; */
+    padding: 20px;
+}
+
+@media (max-width: 575px) {
     .formGroup {
-        display: flex;
-        justify-content: flex-start;
-        gap: 10px;
-        margin-top: 20px;
-        padding: 20px;
-        background: #feebc8;
-        border-radius: 20px 20px 0 0 ;
-    }
-
-    /* --orange-300: #fbd38d */
-
-    .inputs {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        border: 1px solid rgb(203, 213, 224);
-        display: flex;
         flex-direction: column;
+        align-items: center;
     }
+}
 
-    .flex-grow {
-        flex-grow: 1;
-    }
+/* --orange-300: #fbd38d */
 
-    .restaurantTables {
-        padding: 20px 40px;
-        background: #fbd38d;
-        border-radius: 0 0 20px 20px;
-    }
+.inputs {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgb(203, 213, 224);
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.restaurantTables {
+    padding: 20px 40px;
+}
 </style>
 

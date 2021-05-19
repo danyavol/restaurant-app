@@ -15,9 +15,6 @@
                     <li class="nav-item">
                         <router-link :class="currentRoute == 'OrderTable' ? 'nav-link active' : 'nav-link'" to="/order">Забронировать столик</router-link>
                     </li>
-                    <li class="nav-item">
-                        <router-link :class="currentRoute == 'Contacts' ? 'nav-link active' : 'nav-link'" to="/contacts">Контакты</router-link>
-                    </li>
                 </ul>
             </div>
         </div>

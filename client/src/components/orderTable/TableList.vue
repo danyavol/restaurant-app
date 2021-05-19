@@ -86,5 +86,10 @@ export default {
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
+
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid rgb(203, 213, 224);
     }
 </style>
